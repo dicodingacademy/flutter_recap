@@ -1,13 +1,15 @@
 import 'dart:convert';
 
-class DogBreed {
-  DogBreed({
+import 'package:equatable/equatable.dart';
+
+class DogBreed extends Equatable {
+  const DogBreed({
     required this.message,
     required this.status,
   });
 
-  Map<String, List<String>> message;
-  String status;
+  final Map<String, List<String>> message;
+  final String status;
 
   factory DogBreed.fromRawJson(String str) =>
       DogBreed.fromJson(json.decode(str));
@@ -26,4 +28,7 @@ class DogBreed {
             MapEntry<String, dynamic>(k, List<dynamic>.from(v.map((x) => x)))),
         "status": status,
       };
+
+  @override
+  List<Object?> get props => [message, status];
 }

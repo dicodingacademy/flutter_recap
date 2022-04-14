@@ -20,12 +20,17 @@ dependencies:
   shared_preferences: ^2.0.13
   flutter_local_notifications: ^9.4.0
   android_alarm_manager_plus: ^2.0.5 
+  equatable: ^2.0.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^1.0.0
+  mockito: ^5.0.8
+  mocktail: ^0.3.0
+  ## flutter packages pub run build_runner build --delete-conflicting-outputs
+  build_runner: ^2.1.4
 
 flutter:
   uses-material-design: true

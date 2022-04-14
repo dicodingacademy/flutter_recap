@@ -1,10 +1,15 @@
-class FailureException {
-  String message;
+import 'package:equatable/equatable.dart';
 
-  FailureException(
+class FailureException extends Equatable {
+  final String message;
+
+  const FailureException(
     this.message,
   );
 
   @override
   String toString() => 'FailureException(message: $message)';
+
+  @override
+  List<Object?> get props => [message];
 }

@@ -7,35 +7,39 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ApiService {
-  Future<DogBreed> listDogBreed() async {
+  final http.Client _client;
+
+  ApiService({http.Client? client}) : _client = client ?? http.Client();
+
+  Future<dynamic> listDogBreed() async {
     try {
-      final response = await http.get(
+      final response = await _client.get(
         Uri.parse("https://dog.ceo/api/breeds/list/all"),
       );
       if (response.statusCode == 200) {
         return DogBreed.fromJson(json.decode(response.body));
       } else {
-        throw FailureException('Responses are not success');
+        throw const FailureException('Responses are not success');
       }
     } on SocketException {
-      throw FailureException('No Internet Connection');
+      throw const FailureException('No Internet Connection');
     } catch (e) {
-      throw FailureException('Failed to load list of dog breeds');
+      throw const FailureException('Failed to load list of dog breeds');
     }
   }
 
-  Future<DogBreedDetail> dogBreed(String breed) async {
+  Future<dynamic> dogBreed(String breed) async {
     try {
-      final response = await http.get(
+      final response = await _client.get(
         Uri.parse("https://dog.ceo/api/breed/$breed/images/random"),
       );
       if (response.statusCode == 200) {
         return DogBreedDetail.fromJson(json.decode(response.body));
       } else {
-        throw FailureException('Responses are not success');
+        throw const FailureException('Responses are not success');
       }
     } on SocketException {
-      throw FailureException('No Internet Connection');
+      throw const FailureException('No Internet Connection');
     } catch (e) {
       throw FailureException('Failed to load image of dog $breed');
     }
