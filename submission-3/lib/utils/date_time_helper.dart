@@ -11,6 +11,7 @@ class DateTimeHelper {
       dateTimeNow.day,
       kDebugMode ? dateTimeNow.hour : hourAlarm,
       kDebugMode ? dateTimeNow.minute + 1 : minuteAlarm,
+      kDebugMode ? dateTimeNow.minute : 0,
     );
 
     final dateTimeAlarmNextDay = dateTimeAlarmToday.add(
@@ -20,6 +21,10 @@ class DateTimeHelper {
     final dateTimeAlarm = dateTimeNow.isBefore(dateTimeAlarmToday)
         ? dateTimeAlarmToday
         : dateTimeAlarmNextDay;
+
+    if (kDebugMode) {
+      print("Alarm at: $dateTimeAlarm");
+    }
 
     return dateTimeAlarm;
   }

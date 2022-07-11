@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_recap/service/alarm_service.dart';
 import 'package:flutter_recap/service/notification_service.dart';
 import 'package:flutter_recap/service/shared_preference_service.dart';
@@ -19,12 +19,14 @@ class SettingNotifier extends ChangeNotifier {
   bool _isDailyMessageOn = false;
   bool get isDailyMessageOn => _isDailyMessageOn;
 
-  void setDailyMessage(bool value) {
-    _isDailyMessageOn = value;
-    _preferenceService.setDailyMessage(value);
+  void setDailyMessage(bool isOn) {
+    _isDailyMessageOn = isOn;
+    _preferenceService.setDailyMessage(isOn);
 
-    // _notificationService.showNotification();
-    _alarmService.dailyMessageAlarm();
+    if (isOn && kDebugMode) {
+      NotificationService.showNotification();
+    }
+    _alarmService.dailyMessageAlarm(isOn);
 
     notifyListeners();
   }

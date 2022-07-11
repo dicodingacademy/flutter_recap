@@ -54,15 +54,8 @@ class MyApp extends StatelessWidget {
                   SharedPreferenceService(
                     SharedPreferences.getInstance(),
                   ),
-                  NotificationService(
-                    notificationsPlugin,
-                  ),
+                  NotificationService(),
                   AlarmService(
-                    BackgroundService(
-                      NotificationService(
-                        notificationsPlugin,
-                      ),
-                    ),
                     DateTimeHelper(),
                   ),
                 )),
