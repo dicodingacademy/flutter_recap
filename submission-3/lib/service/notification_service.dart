@@ -1,15 +1,15 @@
 import 'dart:math';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_recap/main.dart';
 import 'package:flutter_recap/model/detail_page_argument.dart';
 import 'package:flutter_recap/page/detail_page.dart';
 import 'package:flutter_recap/service/api_service.dart';
 import 'package:flutter_recap/utils/navigator_helper.dart';
 
 class NotificationService {
-  final FlutterLocalNotificationsPlugin _notificationsPlugin;
 
-  NotificationService(this._notificationsPlugin);
+  NotificationService();
 
   Future<void> initNotifications() async {
     var initializationSettingsAndroid =
@@ -26,7 +26,7 @@ class NotificationService {
       iOS: initializationSettingsIOS,
     );
 
-    await _notificationsPlugin.initialize(
+    await notificationsPlugin.initialize(
       initializationSettings,
       onSelectNotification: (String? payload) async {
         if (payload != null) {
@@ -41,15 +41,15 @@ class NotificationService {
     );
   }
 
-  Future<void> showNotification() async {
-    var _channelId = "1";
-    var _channelName = "Dog's Breed";
-    var _channelDescription = "Dog's Breed";
+  static Future<void> showNotification() async {
+    var channelId = "1";
+    var channelName = "Dog's Breed";
+    var channelDescription = "Dog's Breed";
 
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      _channelId,
-      _channelName,
-      channelDescription: _channelDescription,
+      channelId,
+      channelName,
+      channelDescription: channelDescription,
       importance: Importance.max,
       priority: Priority.high,
       ticker: 'ticker',
@@ -63,18 +63,22 @@ class NotificationService {
       iOS: iOSPlatformChannelSpecifics,
     );
 
+    // get Dog's Breed List
     var dogList = await ApiService().listDogBreed();
     var dogBreedList = dogList.message.keys.toList();
+
+    // get random breed item from list
     var randomIndex = Random().nextInt(dogBreedList.length);
     var randomDogBreed = dogBreedList[randomIndex];
 
+    // set notification information
     var titleNotification = "Trending Dog's Breed";
     var bodyNotification = randomDogBreed;
 
     // id for message. If message show many time, notifications will be stack in notification panel.
     var randomIdMessage = Random().nextInt(100);
 
-    await _notificationsPlugin.show(
+    await notificationsPlugin.show(
       randomIdMessage,
       titleNotification,
       bodyNotification,
